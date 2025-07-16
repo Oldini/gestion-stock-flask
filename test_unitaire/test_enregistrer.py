@@ -1,6 +1,36 @@
 import pytest
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+from app import create_app
+from app.models import db, Utilisateur
+from config.testing import TestingConfig
 
+@pytest.fixture
+def app():
+    """Crée l'application Flask avec la config de test"""
+    app = create_app(TestingConfig)
+    app.config['TESTING'] = True
+
+    with app.app_context():
+        db.create_all()
+        yield app
+        db.session.remove()
+        db.drop_all()
+
+@pytest.fixture
+def client(app):
+    """Crée un client de test à partir de l'app"""
+    return app.test_client()
+
+@pytest.fixture
+def init_db(app):
+    """Initialise la base de données avec un utilisateur de test"""
+    with app.app_context():
+        # Crée un utilisateur de test
+        hashed_pw = generate_password_hash('testpass123')
+        user = Utilisateur(nom='testuser', password=hashed_pw, role='utilisateur')
+        db.session.add(user)
+        db.session.commit()
+        return user
 
 def test_register_route_get(client):
     """Test l'accès à la page d'inscription (GET)"""

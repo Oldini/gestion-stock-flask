@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Créer un compte{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <!-- Affichage des messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <form class="auth-form" method="POST">
+        <h2>Créer un compte</h2>
+        
+        <label for="nom">Nom :</label><br>
+        <input type="text" name="nom" required><br><br>
+
+        <label for="password">Mot de passe :</label><br>
+        <input type="password" name="password" required><br><br>
+
+        <label for="confirm_password">Confirmer le mot de passe :</label><br>
+        <input type="password" name="confirm_password" required><br><br>
+
+        <button type="submit">Créer le compte</button>
+        <button type="button" class="return-btn" onclick="window.location.href='{{ url_for('accueil') }}'">Retour</button>
+    </form>
+</div>
+
+{% endblock %}

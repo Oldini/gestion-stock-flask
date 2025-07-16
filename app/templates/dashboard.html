@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .info {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .logout-btn {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #e11d48;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        form {
+            margin-top: 30px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h2>Bienvenue sur le Dashboard</h2>
+
+        <div class="info">Nom : <strong>{{ session['user_nom'] }}</strong></div>
+        <div class="info">Rôle : <strong>{{ session['user_role'] }}</strong></div>
+
+        <a href="{{ url_for('logout') }}" class="logout-btn">Déconnexion</a>
+      <form method="POST" action="{{ url_for('ajouter_produit') }}">
+         <label>Nom du produit :</label><br>
+         <input type="text" name="nom" required><br><br>
+
+         <label>Prix :</label><br>
+         <input type="number" name="prix" required><br><br>
+
+         <button type="submit">Ajouter</button>
+     </form>
+    </div>
+
+    <h3 style="text-align: center; margin: 2rem 0;">Liste des produits</h3>
+<div class="table-container">
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom du produit</th>
+            <th>Prix (Ar)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits %}
+        <tr>
+            <td>{{ produit.id }}</td>
+            <td>{{ produit.nom }}</td>
+            <td>{{ produit.prix }}</td>
+            <td>
+                <a href="{{ url_for('modifier_produit', id=produit.id) }}" class="btn-edit">
+                    <span class="fas fa-edit"></span>
+                </a>
+                <a href="{{ url_for('supprimer_produit', id=produit.id) }}" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">
+                    <span class="fas fa-trash"></span>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</body>
+</html>

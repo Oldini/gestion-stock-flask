@@ -1,0 +1,39 @@
+# Fichiers Python compilés
+*.py[cod]
+__pycache__/
+
+# Environnement virtuel
+venv/
+ENV/
+.env
+.venv
+
+# Dossiers de build/distribution
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# IDE et éditeurs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Fichiers système
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Tests
+htmlcov/
+.tox/
+.coverage*
+.nox/
+
+# Base de données
+*.db
+instance/
+*.secret

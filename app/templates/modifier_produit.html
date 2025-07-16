@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Modifier le produit{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <form class="auth-form" method="POST" action="{{ url_for('modifier_produit', id=produit.id) }}">
+        <h2>Modifier le produit</h2>
+        
+        <label for="nom">Nom :</label>
+        <input type="text" name="nom" value="{{ produit.nom }}" required>
+
+        <label for="prix">Prix :</label>
+        <input type="number" name="prix" value="{{ produit.prix }}" step="0.01" required>
+
+        <button type="submit">Enregistrer les modifications</button>
+        <a href="{{ url_for('dashboard') }}" class="return-btn">Annuler</a>
+    </form>
+</div>
+{% endblock %}

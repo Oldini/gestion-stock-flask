@@ -1,0 +1,34 @@
+# Déploiement
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projectdevops-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: projectdevops
+  template:
+    metadata:
+      labels:
+        app: projectdevops
+    spec:
+      containers:
+      - name: projectdevops-container
+        image: oldini/projectdevops:latest
+        ports:
+        - containerPort: 5000
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: projectdevops-service
+spec:
+  type: NodePort
+  selector:
+    app: projectdevops
+  ports:
+    - port: 80
+      targetPort: 5000
+      nodePort: 30007

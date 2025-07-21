@@ -7,6 +7,7 @@ import os
 
 # Initialisation de l'objet SQLAlchemy, mais pas encore lié à l'app
 db = SQLAlchemy()
+migrate = Migrate() 
 
 def create_app(config_class=None):
     app = Flask(__name__)

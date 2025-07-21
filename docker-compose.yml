@@ -3,6 +3,7 @@ version: '3.8'
 services:
   backend:
     image: oldini/projectdevops:latest
+    container_name: ProjectDevops
     ports:
       - "5000:5000"
     environment:

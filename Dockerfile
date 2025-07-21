@@ -30,4 +30,5 @@ ENV FLASK_RUN_PORT=5000
 EXPOSE 5000
 
 # ✅ Étape 9: Lancer l'application Flask
-CMD ["flask", "run"]
+ENTRYPOINT ["/entrypoint.sh"]
+

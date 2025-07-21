@@ -4,6 +4,11 @@ from app import create_app, db
 from app.models import Utilisateur
 import os
 
+
+# Charger les variables d'environnement depuis le fichier .env
+load_dotenv()
+
+
 class TestConfig:
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL')

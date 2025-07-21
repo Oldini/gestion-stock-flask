@@ -1,8 +1,23 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:15
+    container_name: jenkins-postgres-stock
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oldini031001
+      POSTGRES_DB: Stock
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d Stock"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   backend:
-    image: oldini/projectdevops:latest     # ❗ image déjà construite via Jenkins
+    build: .                     # ✅ Construction de l'image à partir du Dockerfile
     container_name: ProjectDevops
     ports:
       - "5000:5000"
@@ -11,21 +26,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
-  db:
-    image: postgres:15
-    container_name: jenkins-postgres-stock
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=oldini031001
-      - POSTGRES_DB=Stock
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d Stock"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
 
 volumes:
   pgdata:

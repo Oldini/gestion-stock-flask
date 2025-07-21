@@ -14,7 +14,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: postgres-stock
+    container_name: jenkins-postgres-stock
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=oldini031001

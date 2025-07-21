@@ -5,15 +5,19 @@ while ! nc -z db 5432; do
   sleep 1
 done
 
-echo "✅ PostgreSQL est prêt. Initialisation des migrations..."
+echo "✅ PostgreSQL est prêt."
 
-# 📁 Créer le dossier migrations s'il n'existe pas (uniquement la 1re fois)
+# Initialiser la migration si nécessaire
 if [ ! -d "migrations" ]; then
-    flask db init
+  echo "📁 Initialisation de flask-migrate..."
+  flask db init
 fi
 
-flask db migrate -m "Initial migration"
+# Appliquer les migrations
+echo "⬆️ Mise à jour de la base de données..."
+flask db migrate -m "Auto migration"
 flask db upgrade
 
-echo "🚀 Lancement de l'application Flask..."
-exec flask run
+# Lancer l'application Flask
+echo "🚀 Lancement de Flask"
+exec flask run --host=0.0.0.0 --port=5000

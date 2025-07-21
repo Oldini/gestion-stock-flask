@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   backend:
+    image: oldini/projectdevops:latest     # ❗ image déjà construite via Jenkins
     container_name: ProjectDevops
     ports:
       - "5000:5000"
@@ -18,7 +19,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=oldini031001
       - POSTGRES_DB=Stock
-    
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    image: oldini/projectdevops:latest
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:oldini031001@db:5432/Stock
+    depends_on:
+      - db
+    volumes:
+      - ~/ProjectDevops/Myscript.sql:/docker-entrypoint-initdb.d/init.sql
+
+  db:
+    image: postgres:15
+    container_name: postgres-stock
+    environment:
+      - POSTGRES_DB=Stock
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=oldini031001
+      - POSTGRES_MULTIPLE_DATABASES=stock_test
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ~/ProjectDevops/Myscript.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

@@ -1,5 +1,6 @@
 # Déploiement
 apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: projectdevops-deployment
@@ -18,6 +19,9 @@ spec:
         image: oldini/projectdevops:latest
         ports:
         - containerPort: 5000
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://postgres:oldini031001@postgres-service:5432/Stock"
 ---
 # Service
 apiVersion: v1

@@ -25,6 +25,9 @@ def create_app(config_class=None):
     # Connexion de SQLAlchemy à l'app
     db.init_app(app)
 
+
+       
+
     # Création automatique des tables dans la base de données
     with app.app_context():
         db.create_all()

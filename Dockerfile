@@ -4,6 +4,13 @@ FROM python:3.11-slim
 # ✅ Étape 2: Définir le répertoire de travail
 WORKDIR /app
 
+#Installer netcat pour l'attente PostgreSQL
+RUN apt-get update && \
+    apt-get install -y netcat && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
 # ✅ Étape 3: Copier les dépendances
 COPY requirements.txt .
 

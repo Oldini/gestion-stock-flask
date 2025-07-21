@@ -5,3 +5,4 @@ pytest==8.4.1
 python-dotenv==1.1.1
 SQLAlchemy==2.0.41
 psycopg2-binary==2.9.10
+Flask-Migrate==4.1.0

@@ -23,7 +23,7 @@ spec:
         -name: FLASK_ENV
               value: "production"
         - name: DATABASE_URL
-          value: "postgresql://postgres:oldini031001@postgres-service:5432/Stock"
+          value: "postgresql://postgres:oldini031001@postgres:5432/Stock"
 ---
 # Service
 apiVersion: v1

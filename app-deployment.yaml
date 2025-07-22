@@ -1,6 +1,5 @@
 # Déploiement
 apiVersion: apps/v1
-apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: projectdevops-deployment
@@ -20,10 +19,12 @@ spec:
         ports:
         - containerPort: 5000
         env:
-        -name: FLASK_ENV
-              value: "production"
+        - name: FLASK_ENV
+          value: "development"  
+        - name: FLASK_APP
+          value: "run.py"
         - name: DATABASE_URL
-          value: "postgresql://postgres:oldini031001@postgres:5432/Stock"
+          value: "postgresql://postgres:oldini031001@postgres:5432/Stock"  
 ---
 # Service
 apiVersion: v1

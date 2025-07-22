@@ -17,7 +17,10 @@ services:
       retries: 10
 
   backend:
-    build: .                     # ✅ Construction de l'image à partir du Dockerfile
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: oldini/projectdevops:latest 
     container_name: ProjectDevops
     ports:
       - "5000:5000"

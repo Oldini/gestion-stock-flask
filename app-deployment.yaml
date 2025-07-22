@@ -15,11 +15,13 @@ spec:
         app: projectdevops
     spec:
       containers:
-      - name: projectdevops-container
+      - name: projectdevops
         image: oldini/projectdevops:latest
         ports:
         - containerPort: 5000
         env:
+        -name: FLASK_ENV
+              value: "production"
         - name: DATABASE_URL
           value: "postgresql://postgres:oldini031001@postgres-service:5432/Stock"
 ---

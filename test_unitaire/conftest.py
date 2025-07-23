@@ -1,13 +1,21 @@
 import pytest
+from dotenv import load_dotenv
 from app import create_app, db
 from app.models import Utilisateur
+import os
+
+
+# Charger les variables d'environnement depuis le fichier .env
+load_dotenv()
+
 
 class TestConfig:
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:oldini031001@localhost:5432/stock_test'
+    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WTF_CSRF_ENABLED = False
-    SECRET_KEY = 'secret-test-key'
+    SECRET_KEY = os.getenv('SECRET_KEY', 'secret-test-key')
+
 
 @pytest.fixture(scope='module')
 def app():

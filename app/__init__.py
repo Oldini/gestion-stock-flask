@@ -2,10 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config.base import Config
 from config.testing import TestingConfig
+from flask_migrate import Migrate 
 import os
 
 # Initialisation de l'objet SQLAlchemy, mais pas encore lié à l'app
 db = SQLAlchemy()
+migrate = Migrate() 
 
 def create_app(config_class=None):
     app = Flask(__name__)
@@ -25,7 +27,8 @@ def create_app(config_class=None):
     # Connexion de SQLAlchemy à l'app
     db.init_app(app)
 
-
+    #Connexion de Flask-Migrate à l'app et à SQLAlchemy
+    migrate.init_app(app, db)
        
 
     # Création automatique des tables dans la base de données
@@ -35,6 +38,8 @@ def create_app(config_class=None):
     # Importation et enregistrement des routes
     from app.routes import init_routes
     init_routes(app)
+
+    print("✅ Base de données connectée :", app.config['SQLALCHEMY_DATABASE_URI'])
 
     return app
 

@@ -1,26 +1,13 @@
 version: '3.8'
 
 services:
-  backend:
-    image: oldini/projectdevops:latest
-    container_name: ProjectDevops
-    ports:
-      - "5000:5000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:oldini031001@db:5432/Stock
-      - TEST_DATABASE_URL=postgresql://postgres:oldini031001@db:5432/stock_test
-    depends_on:
-      db:
-        condition: service_healthy
-
   db:
     image: postgres:15
     container_name: jenkins-postgres-stock
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=oldini031001
-      - POSTGRES_DB=Stock
-    
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oldini031001
+      POSTGRES_DB: Stock
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -28,6 +15,20 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: oldini/projectdevops:latest 
+    container_name: ProjectDevops
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   pgdata:

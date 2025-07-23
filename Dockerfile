@@ -4,6 +4,13 @@ FROM python:3.11-slim
 # ✅ Étape 2: Définir le répertoire de travail
 WORKDIR /app
 
+#Installer netcat pour l'attente PostgreSQL
+RUN apt-get update && \
+    apt-get install -y netcat-openbsd && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
 # ✅ Étape 3: Copier les dépendances
 COPY requirements.txt .
 
@@ -15,14 +22,20 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # ✅ Étape 5: Copier tout le projet
 COPY . .
 
-# ✅ Étape 6: Configuration Flask pour production
+# ✅ Étape 6: Copier et rendre executable le script
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+
+# ✅ Étape 7: Configuration Flask pour production
 ENV FLASK_APP=run.py
 ENV FLASK_ENV=production
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=5000
 
-# ✅ Étape 7: Exposer le port Flask
+# ✅ Étape 8: Exposer le port Flask
 EXPOSE 5000
 
-# ✅ Étape 8: Lancer l'application Flask
-CMD ["flask", "run"]
+# ✅ Étape 9: Lancer l'application Flask
+ENTRYPOINT ["/entrypoint.sh"]
+
